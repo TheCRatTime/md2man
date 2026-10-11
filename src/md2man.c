@@ -80,6 +80,12 @@ static const char* PrintColor(const char* text,
                               const char* const first_ptr) {
   int star_count = 0;
 
+  if (text != first_ptr) {
+    if (*(text-1) == '\\') {
+      return text;
+    }
+  }
+
   if (Peek(text) == ' ') {
     if (text != first_ptr) {
       if (*(text-1) != '\n') {
@@ -329,6 +335,17 @@ static const char* PrintLink(const char* text) {
   return text;
 }
 
+static const char* Backslash(const char* text) {
+  if (Peek(text) != '*') {
+    putchar('\\');
+    return text;
+  }
+
+  putchar('*');
+  
+  return text;
+}
+
 static void PrettyPrint(const char* text) {
   const char* const first_text = text;
   
@@ -359,6 +376,9 @@ static void PrettyPrint(const char* text) {
         break;
       case '[':
         text = PrintLink(text);
+        break;
+      case '\\':
+        text = Backslash(text);
         break;
       default:
         PutChar(*text);
