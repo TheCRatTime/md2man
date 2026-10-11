@@ -337,11 +337,11 @@ static const char* PrintLink(const char* text) {
 
 static const char* Backslash(const char* text) {
   if (Peek(text) != '*') {
-    putchar('\\');
+    PutChar('\\');
     return text;
   }
 
-  putchar('*');
+  PutChar('*');
   
   return text;
 }
