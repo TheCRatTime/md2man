@@ -48,8 +48,7 @@ static void RealPutChar(const char text) {
 #define PutChar(chr) \
   RealPutChar(chr)
 
-static const char* HeaderPrint(const char* text,
-                               const char* const first_ptr) {
+static const char* HeaderPrint(const char* text) {
   while(*text == '#') {
     text++;
   }
@@ -57,12 +56,6 @@ static const char* HeaderPrint(const char* text,
   /* Skipping space */
   if (Peek(text) == ' ') {
     text++;
-  }
-
-  if (text != first_ptr) {
-    if (*(text-1) != '\n') {
-      putchar('\n');
-    }
   }
 
   fputs(".SH", stdout);
@@ -245,7 +238,7 @@ static const char* NewlineCheck(const char* text,
     putchar('\n');
   }
   
-  return text;
+  return ++text;
 }
 
 static const char* ParseTH(const char* text) {
@@ -357,7 +350,7 @@ static void PrettyPrint(const char* text) {
     
     switch(*text) {
       case '#':
-        text = HeaderPrint(text, first_text);
+        text = HeaderPrint(text);
         break;
       case '*':
         text = PrintColor(text, first_text);
@@ -390,7 +383,9 @@ static void PrettyPrint(const char* text) {
     }
   }
 
-  putchar('\n');
+  if (*(text-1) != '\n') {
+    putchar('\n');
+  }
 }
 
 int main(int argc, char** argv) {
