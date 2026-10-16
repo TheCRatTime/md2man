@@ -238,7 +238,7 @@ static const char* NewlineCheck(const char* text,
     putchar('\n');
   }
   
-  return ++text;
+  return text;
 }
 
 static const char* ParseTH(const char* text) {
